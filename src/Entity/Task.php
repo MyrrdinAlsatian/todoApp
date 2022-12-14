@@ -33,7 +33,7 @@ class Task
     public function __construct()
     {
         $this->setCreatedAt(new \Datetime());
-        $this->setIsDone(false);
+        $this->toggle(false);
     }
 
     public function getId(): ?int
