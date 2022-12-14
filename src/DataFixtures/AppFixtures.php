@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Task;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -32,8 +33,13 @@ class AppFixtures extends Fixture
         ->setEmail('john.doe@unchained.com');
         $manager->persist($user1);
 
+        
+        for ($i = 0; $i < random_int(2,35); $i++) {
+            $task = new Task();
+            $task->setTitle('task ' . $i);
+            $task->setContent(mt_rand(10, 100));
+            $manager->persist($task);
+        }
         $manager->flush();
-
-
     }
 }
