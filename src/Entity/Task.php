@@ -26,6 +26,12 @@ class Task
     #[ORM\Column]
     private ?bool $isDone = null;
 
+    public function __construct()
+    {
+        $this->setCreatedAt(new \Datetime());
+        $this->setIsDone(false);
+    }
+
     public function getId(): ?int
     {
         return $this->id;
