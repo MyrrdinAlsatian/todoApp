@@ -32,8 +32,8 @@ class Task
 
     public function __construct()
     {
-        $this->setCreatedAt(new \Datetime());
-        $this->toggle(false);
+        $this->createdAt = new \Datetime();
+        $this->isDone = false;
     }
 
     public function getId(): ?int
@@ -77,7 +77,7 @@ class Task
         return $this;
     }
 
-    public function isIsDone(): ?bool
+    public function isDone(): ?bool
     {
         return $this->isDone;
     }
