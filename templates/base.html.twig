@@ -65,14 +65,14 @@
 			<div
 				class="row">
 				<a
-					{# href="{{ path('user_create') }}" #}
+					href="{{ path('app_register') }}"
 					 class="btn btn-primary">
 					Créer un utilisateur
 				</a>
 
 				{% if app.user %}
 					<a
-						{# href="{{ path('logout') }}" #}
+						 href="{{ path('app_logout') }}"
 						 class="pull-right btn btn-danger">
 						Se déconnecter
 					</a>
@@ -80,7 +80,7 @@
 
 				{% if not app.user and 'login' != app.request.attributes.get('_route') %}
 					<a
-						{# href="{{ path('login') }}" #}
+						href="{{ path('app_login') }}"
 						 class="btn btn-success">
 						Se connecter
 					</a>
