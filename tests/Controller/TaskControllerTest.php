@@ -77,8 +77,9 @@ class TaskControllerTest extends WebTestCase
 
         self::assertSame('Something Title New', $fixture[0]->getTitle());
         self::assertSame('Something Content New', $fixture[0]->getContent());
-        self::assertCheckboxChecked('task[isDone]');
+        self::assertSame(true, $fixture[0]->isIsDone());
     }
+    
 
     public function testRemove(): void
     {
