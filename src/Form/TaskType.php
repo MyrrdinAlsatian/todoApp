@@ -20,7 +20,7 @@ class TaskType extends AbstractType
                 'label' => 'Titre',
                 ] )
             ->add('content', TextareaType::class, ['label' => 'Contenu'])
-            ->add('isDone', CheckboxType::class,['label' => 'Fait'])
+            ->add('isDone', CheckboxType::class,['label' => 'Fait','empty_data' => false, "mapped" => false])
         ;
     }
 
