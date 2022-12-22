@@ -32,7 +32,6 @@ class UserController extends AbstractController
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
-        $form->remove('roles');
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -66,7 +65,7 @@ class UserController extends AbstractController
     public function edit(Request $request, User $user, UserRepository $userRepository): Response
     {
         $form = $this->createForm(UserType::class, $user);
-        $form->remove('roles'); //to be handle
+        // $form->remove('roles'); //to be handle
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
