@@ -79,7 +79,45 @@ class TaskControllerTest extends WebTestCase
         self::assertSame('Something Content New', $fixture[0]->getContent());
         self::assertSame(true, $fixture[0]->isIsDone());
     }
-    
+
+    public function testToggle2True() : void
+    {
+        $fixture = new Task();
+        $fixture->setTitle('My Title');
+        $fixture->setContent('My Awesome Content');
+        $this->repository->save($fixture, true);
+        
+        $this->client->request('GET', sprintf('%s', $this->path));
+        $this->client->submitForm('Marquer comme faite');
+        self::assertResponseRedirects('/task/');
+
+        $fixture = $this->repository->findAll();
+        self::assertSame(true, $fixture[0]->isIsDone());
+
+        // $this->client->
+// Marquer comme faite
+
+    }
+
+    public function testToggle2False(): void
+    {
+        $this->client->request('GET', sprintf('%s', $this->path));
+        $fixture = new Task();
+        $fixture->setTitle('My Title');
+        $fixture->setContent('My Awesome Content');
+        $fixture->toggle(true);
+        $this->repository->save($fixture, true);
+
+        $this->client->request('GET', sprintf('%s', $this->path));
+        $this->client->submitForm('Marquer non terminée');
+        self::assertResponseRedirects('/task/');
+
+        // Marquer comme faite
+        $fixture = $this->repository->findAll();
+        self::assertSame(false, $fixture[0]->isIsDone());
+
+    }
+
 
     public function testRemove(): void
     {
@@ -97,7 +135,6 @@ class TaskControllerTest extends WebTestCase
 
         $this->client->request('GET', sprintf('%s', $this->path ));
         $this->client->submitForm('Supprimer');
-
         self::assertSame($originalNumObjectsInRepository, count($this->repository->findAll()));
         self::assertResponseRedirects('/task/');
     }
