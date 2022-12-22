@@ -49,6 +49,7 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $task->toggle($form->get('isDone')->getData());
             $taskRepository->save($task, true);
             $this->addFlash('success', sprintf("La tâche %s a bien été modifié", $task->getTitle()));
             return $this->redirectToRoute('app_task_index', [], Response::HTTP_SEE_OTHER);
@@ -63,9 +64,9 @@ class TaskController extends AbstractController
     #[Route('/{id}/toggle', name: 'app_task_toggle', methods: ['POST'])]
     public function toggle(Request $request, Task $task, TaskRepository $taskRepository): Response
     {
-        $task->toggle(!$task->isDone());
+        $task->toggle(!$task->isIsDone());
         $taskRepository->save($task,true);
-        if($task->isDone())
+        if($task->IsIsDone())
         {
             $this->addFlash('success', sprintf("La tâche %s a bien été marquée comme complété", $task->getTitle()));
             return $this->redirectToRoute('app_task_index');

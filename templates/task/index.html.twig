@@ -17,7 +17,7 @@
                 </div>
                 <div>
                     <form action="{{ path('app_task_toggle', {'id' : task.id }) }}" method='POST'>
-                        <button class="btn btn-success btn-sm pull-right">
+                        <button id="toggle" class="btn btn-success btn-sm pull-right">
                             {% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée{% endif %}
                         </button>
                     </form>
