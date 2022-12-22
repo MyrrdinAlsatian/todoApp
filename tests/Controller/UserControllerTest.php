@@ -51,8 +51,10 @@ class UserControllerTest extends WebTestCase
         ]);
 
         self::assertResponseRedirects('/user/');
-
-        self::assertSame($originalNumObjectsInRepository + 1, count($this->repository->findAll()));
+        $datas = $this->repository->findAll(); 
+        self::assertSame($originalNumObjectsInRepository + 1, count($datas));
+        self::assertContains('ROLE_USER', $datas[0]->getRoles()); 
+        self::assertNotContains('ROLE_ADMIN', $datas[0]->getRoles());
     }
 
     // public function testShow(): void
