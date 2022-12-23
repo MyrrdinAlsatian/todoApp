@@ -5,6 +5,8 @@ namespace App\Form;
 use App\Entity\User;
 use PHPUnit\Framework\Test;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -28,15 +30,23 @@ class UserType extends AbstractType
             ],
         ])
             ->add('username', TextType::class, ['label' => "Nom d'utilisateur"])
-            ->add('roles')
+            ->add('roles', ChoiceType::class, [
+                'required' => true,
+                'multiple' => false,
+                'expanded' => false,
+                'choices' => [
+                    'Utilisateur' => 'ROLE_USER',
+                    'Admin' => 'ROLE_ADMIN'
+                ],
+                'empty_data' => 'Utilisateur'])
             ->add('password',RepeatedType::class, [
             // instead of being set onto the object directly,
             // this is read and encoded in the controller
             'type' => PasswordType::class,
             'invalid_message' => " les deux mots de passe doivent correspondre",
-            'mapped' => false,
+            'mapped' => true,
             'attr' => ['autocomplete' => 'new-password'],
-            'required' => true,
+            'required' => false,
             'first_options'  => ['label' => 'Mot de passe'],
             'second_options' => ['label' => 'Confirmez votre mot de passe'],
             'constraints' => [
@@ -51,6 +61,15 @@ class UserType extends AbstractType
                 ]),
             ],
         ]);
+
+        $builder->get('roles')->addModelTransformer( new CallbackTransformer(
+            function ($roleArray){
+                return count($roleArray)? $roleArray[0]: null;
+            },
+            function ($roleString){
+                return [$roleString];
+            }
+        ));
     }
 
     public function configureOptions(OptionsResolver $resolver): void

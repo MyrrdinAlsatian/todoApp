@@ -34,10 +34,14 @@ class AppFixtures extends Fixture
         $manager->persist($user1);
 
         
+        $authors = [$user1, $admin1,null];
+        
         for ($i = 0; $i < random_int(2,35); $i++) {
+            $key = array_rand($authors);
             $task = new Task();
             $task->setTitle('task ' . $i);
             $task->setContent(mt_rand(10, 100));
+            $task->setAuthor($authors[$key]);
             $manager->persist($task);
         }
         $manager->flush();
