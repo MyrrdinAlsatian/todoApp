@@ -91,8 +91,8 @@ class UserControllerTest extends WebTestCase
 
         $this->client->submitForm('Modifier', [
             'user[email]' => 'Something@New.tes',
-            'user[password][first]' => 'Testing',
-            'user[password][second]' => 'Testing',
+            // 'user[password][first]' => 'Testing', //TODO: check when User is Logged
+            // 'user[password][second]' => 'Testing',
             'user[username]' => 'Something New',
         ]);
 
