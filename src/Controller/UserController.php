@@ -65,19 +65,25 @@ class UserController extends AbstractController
     public function edit(Request $request, User $user, UserRepository $userRepository): Response
     {
         $form = $this->createForm(UserType::class, $user);
-        // $form->remove('roles'); //to be handle
+        
+        /** @var \App\Entity\User $user */
+        if($this->getUser() !== $user){
+            $form->remove('password');
+            // dd($this->getUser(), $user);
+        }
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword($this->userpassWordHasher->hashPassword(
-                $user,
-                $form->get('password')->getData()
-            ));
+            if ($this->getUser() === $user) {
+                $user->setPassword($this->userpassWordHasher->hashPassword(
+                    $user,
+                    $form->get('password')->getData()
+                ));
+            }
             $userRepository->save($user, true);
             $this->addFlash('success', "L'utilisateur a bien été modifié");
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
-        // dd($form);
         return $this->renderForm('user/edit.html.twig', [
             'user' => $user,
             'form' => $form,
